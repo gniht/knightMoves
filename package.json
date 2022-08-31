@@ -1,0 +1,23 @@
+{
+  "name": "knightmoves",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gniht/knightMoves.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gniht/knightMoves/issues"
+  },
+  "homepage": "https://github.com/gniht/knightMoves#readme",
+  "devDependencies": {
+    "jest": "^29.0.1"
+  }
+}
