@@ -11,6 +11,15 @@ export default class Knight{
       return false;
     }    
     const moveSequence = [from];
+    const match = ([x,y]) => {
+      return x === to[0] && y === to[1];
+    } 
+    
+    if(this.getConnections(from).some(match)){
+      moveSequence.push(to);      
+    }else{
+      // check other paths
+    }
     
     return moveSequence;
   }

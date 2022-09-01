@@ -14,5 +14,9 @@ describe('a knight', () => {
   it('retrieves connections to a given node', () => {
     expect(knight.getConnections([0,0])).toEqual([ [1,2], [2,1] ]);
   });
+
+  it('moves to connected nodes', () => {
+    expect(knight.knightMoves([1, 2], [0, 0])).toEqual([[0, 0], [1, 2]]);
+  });
   
 });
