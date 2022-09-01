@@ -6,19 +6,26 @@ export default class Knight{
     this.board = this.setup();    
   }
 
-  knightMoves(to, from = this.position){
+  knightMoves(from = this.position, to, history = []){
     if(!this.onBoard(to)){
       return false;
-    }    
-    const moveSequence = [from];
-    const match = ([x,y]) => {
-      return x === to[0] && y === to[1];
+    }
+        
+    const moveSequence = [...history, from];
+    const matchTo = ([x,y]) => {
+      return  ([z, w]) => x === z && y === w;
     } 
-    
-    if(this.getConnections(from).some(match)){
+    const connectedNodes = this.getConnections(from);
+    if(connectedNodes.some(matchTo(to))){
       moveSequence.push(to);      
     }else{
       // check other paths
+      // const matchFrom = matchTo(from);
+      connectedNodes.forEach(pos => {
+        if(!matchTo(pos)(from) && !history.some(matchTo(pos))){
+
+        }
+      });
     }
     
     return moveSequence;

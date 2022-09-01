@@ -4,7 +4,7 @@ describe('a knight', () => {
   const knight = new Knight([0, 0]);
 
   it('moves only on the board', () => {
-    expect(knight.knightMoves([1, 8])).toBe(false);
+    expect(knight.knightMoves([0, 0],[1, 8])).toBe(false);
   });
 
   it('properly sets up connections', () => {
@@ -16,7 +16,7 @@ describe('a knight', () => {
   });
 
   it('moves to connected nodes', () => {
-    expect(knight.knightMoves([1, 2], [0, 0])).toEqual([[0, 0], [1, 2]]);
+    expect(knight.knightMoves([0, 0], [1, 2])).toEqual([[0, 0], [1, 2]]);
   });
   
 });
