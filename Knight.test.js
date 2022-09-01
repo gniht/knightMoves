@@ -10,5 +10,9 @@ describe('a knight', () => {
   it('properly sets up connections', () => {
     expect(knight.board.grid[0][0]).toEqual([ [1,2], [2,1] ]);
   });
+
+  it('retrieves connections to a given node', () => {
+    expect(knight.getConnections([0,0])).toEqual([ [1,2], [2,1] ]);
+  });
   
 });

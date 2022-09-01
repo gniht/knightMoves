@@ -11,9 +11,12 @@ export default class Knight{
       return false;
     }    
     const moveSequence = [from];
-
-
+    
     return moveSequence;
+  }
+
+  getConnections(coords){
+    return this.board.grid[coords[0]][coords[1]];
   }
   
   setup(){
