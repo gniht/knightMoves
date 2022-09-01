@@ -6,5 +6,9 @@ describe('a knight', () => {
   it('moves only on the board', () => {
     expect(knight.knightMoves([1, 8])).toBe(false);
   });
+
+  it('properly sets up connections', () => {
+    expect(knight.board.grid[0][0]).toEqual([ [1,2], [2,1] ]);
+  });
   
 });
