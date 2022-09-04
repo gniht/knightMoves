@@ -20,14 +20,20 @@ export default class Knight{
       moveSequence.push(to);      
     }else{
       // check other paths
-      // const matchFrom = matchTo(from);
-      connectedNodes.forEach(pos => {
-        if(!matchTo(pos)(from) && !history.some(matchTo(pos))){
 
+      /*  might be helpful to track square color to optimize search for
+          shortest path because knights must alternate what color they're 
+          on with each move.
+          i believe we can get color from the parity of the sum of the target
+          square's coordinates. 
+          (e.g. 1,3 sums to 4, and 4%2 = 0 so it's even, or white).
+      */
+      connectedNodes.forEach(pos => {
+        if(!history.some(matchTo(pos))){
+          moveSequence = this.knightMoves(pos, to, moveSequence);
         }
       });
-    }
-    
+    }    
     return moveSequence;
   }
 
