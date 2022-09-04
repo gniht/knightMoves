@@ -18,5 +18,9 @@ describe('a knight', () => {
   it('moves to connected nodes', () => {
     expect(knight.knightMoves([0, 0], [1, 2])).toEqual([[0, 0], [1, 2]]);
   });
+
+  it('moves to nodes not immediately connected', () => {
+    expect(knight.knightMoves([0, 0], [3, 1])).toEqual([[0, 0], [1, 2], [3, 1]]);
+  });
   
 });

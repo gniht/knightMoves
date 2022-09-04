@@ -11,11 +11,12 @@ export default class Knight{
       return false;
     }
         
-    const moveSequence = [...history, from];
+    let moveSequence = [...history, from];
     const matchTo = ([x,y]) => {
       return  ([z, w]) => x === z && y === w;
     } 
     const connectedNodes = this.getConnections(from);
+    const connectedToDestination = this.getConnections(to);
     if(connectedNodes.some(matchTo(to))){
       moveSequence.push(to);      
     }else{
@@ -23,14 +24,19 @@ export default class Knight{
 
       /*  might be helpful to track square color to optimize search for
           shortest path because knights must alternate what color they're 
-          on with each move.
+          on with each move... if the knight lands on the same color as it
+          starts on, then that adds at least one move compared to the scenario
+          where it changes color.
           i believe we can get color from the parity of the sum of the target
           square's coordinates. 
-          (e.g. 1,3 sums to 4, and 4%2 = 0 so it's even, or white).
+          (e.g. 1,3 sums to 4, and 4%2 = 0 so it's even, thus it's a white square).
       */
       connectedNodes.forEach(pos => {
         if(!history.some(matchTo(pos))){
-          moveSequence = this.knightMoves(pos, to, moveSequence);
+          // moveSequence = this.knightMoves(pos, to, moveSequence);
+          if(connectedToDestination.some(matchTo(pos))){
+            moveSequence = this.knightMoves(pos, to, moveSequence);
+          }
         }
       });
     }    
