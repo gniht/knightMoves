@@ -9,41 +9,66 @@ export default class Knight{
   knightMoves(from = this.position, to, history = []){
     if(!this.onBoard(to)){
       return false;
-    }
-        
+    }        
     let moveSequence = [...history, from];
     const matchTo = ([x,y]) => {
       return  ([z, w]) => x === z && y === w;
     } 
     const connectedNodes = this.getConnections(from);
     const connectedToDestination = this.getConnections(to);
-    if(connectedNodes.some(matchTo(to))){
-      moveSequence.push(to);      
-    }else{
-      // check other paths
 
-      /*  might be helpful to track square color to optimize search for
-          shortest path because knights must alternate what color they're 
-          on with each move... if the knight lands on the same color as it
-          starts on, then that adds at least one move compared to the scenario
-          where it changes color.
-          i believe we can get color from the parity of the sum of the target
-          square's coordinates. 
-          (e.g. 1,3 sums to 4, and 4%2 = 0 so it's even, thus it's a white square).
-      */
+    let foundMove = false;
+    
+    if(connectedNodes.some(matchTo(to))){
+      moveSequence.push(to);
+      foundMove = true;      
+    }else{      
       connectedNodes.forEach(pos => {
-        if(!history.some(matchTo(pos))){
-          // moveSequence = this.knightMoves(pos, to, moveSequence);
-          if(connectedToDestination.some(matchTo(pos))){
-            moveSequence = this.knightMoves(pos, to, moveSequence);
-          }
-        }
+        if(connectedToDestination.some(matchTo(pos)) && !foundMove){
+          moveSequence = this.knightMoves(pos, to, moveSequence);
+          foundMove = true;            
+        }        
       });
+    }
+    if(!foundMove){
+      // 4th degree
+      connectedNodes.forEach(pos => {
+        this.getConnections(pos).forEach(node => {
+          if(connectedToDestination.some(matchTo(node)) && !foundMove){
+            moveSequence = this.knightMoves(pos, to, moveSequence);
+            foundMove = true;
+          }
+        });
+      });
+    }
+    if(!foundMove){      
+      moveSequence = this.knightMoves(this.moveTowardFarAwaySquare(from, to, connectedNodes), to, moveSequence);
     }    
     return moveSequence;
   }
 
+  moveTowardFarAwaySquare(from, to, candidates){
+    let x = to[0] - from[0];
+    let y = to[1] - from[1];    
+    let shortestPathLength = Math.sqrt(x*x + y*y);
+    let mostDirect = [x, y];
+    
+    candidates.forEach(pos => {
+      let a = to[0] - pos[0];
+      let b = to[1] - pos[1];
+      let distance = Math.sqrt(a*a + b*b);
+      if(distance < shortestPathLength){
+        shortestPathLength = distance;
+        mostDirect = pos;        
+      }
+    });
+    return mostDirect;
+  }
+
+  
+
   getConnections(coords){
+    // todo: generalize getConnections    
     return this.board.grid[coords[0]][coords[1]];
   }
   
@@ -58,6 +83,9 @@ export default class Knight{
   }
 
   assignConnections(pos){
+    // populates each target square on the board
+    // with an array of connections
+    
     const candidates = [
        [pos[0]-1, pos[1]+2], 
        [pos[0]-1, pos[1]-2], 

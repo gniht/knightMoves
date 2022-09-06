@@ -20,7 +20,11 @@ describe('a knight', () => {
   });
 
   it('moves to nodes not immediately connected', () => {
-    expect(knight.knightMoves([0, 0], [3, 1])).toEqual([[0, 0], [1, 2], [3, 1]]);
+    expect(knight.knightMoves([0, 0], [3, 3])).toEqual([[0,0], [1,2], [3,3]]);
+  });
+
+  it('finds path to far away nodes', () => {
+    expect(knight.knightMoves([0, 0], [7, 6])).toEqual([[0, 0], [2, 1], [3, 3], [4, 5], [5, 7], [7, 6]]);
   });
   
 });
